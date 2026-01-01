@@ -1,0 +1,18 @@
+# MANIFEST (minimum files to hand to Codex/Antigravity)
+
+GEMINI.md
+AGENTS.md
+docs/IMPLEMENTATION_v0.1.2.md
+docs/JS_VIDEO_LAYER_API.md
+docs/SETUP_GUIDE.md
+docs/VALIDATION.md
+HANDOFF/CONTEXT.md
+HANDOFF/TASKS.md
+game/web_video_bridge.rpy
+game/movie_overlay.rpy
+game/movie_demo.rpy
+game/data/segments.json
+web_patch/video_layer.js
+web_patch/video_layer.css
+tools/patch_web_build.py
+

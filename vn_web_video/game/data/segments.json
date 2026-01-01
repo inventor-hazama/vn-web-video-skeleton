@@ -1,0 +1,119 @@
+{
+  "version": "0.1.2",
+  "start_segment": "seg_loop_A",
+  "video": {
+    "base_url": "game/",
+    "default_ext": "mp4",
+    "fallback_ext": "webm"
+  },
+  "clips": {
+    "A": {
+      "path": "movies/A.mp4"
+    },
+    "B": {
+      "path": "movies/B.mp4"
+    },
+    "C": {
+      "path": "movies/C.mp4"
+    }
+  },
+  "segments": {
+    "seg_loop_A": {
+      "pattern": [
+        "A"
+      ],
+      "loop": true,
+      "clip_transition": {
+        "type": "none",
+        "duration": 0.0
+      },
+      "switch_timing": "immediate",
+      "segment_transition": {
+        "type": "crossfade",
+        "duration": 0.25
+      },
+      "choices": {
+        "mode": "always",
+        "items": [
+          {
+            "id": "to_AB",
+            "text": "ABループへ",
+            "next": "seg_loop_AB"
+          },
+          {
+            "id": "to_ACBABC",
+            "text": "ACBABCループへ",
+            "next": "seg_loop_ACBABC"
+          }
+        ]
+      }
+    },
+    "seg_loop_AB": {
+      "pattern": [
+        "A",
+        "B"
+      ],
+      "loop": true,
+      "clip_transition": {
+        "type": "dissolve",
+        "duration": 0.12
+      },
+      "switch_timing": "boundary",
+      "segment_transition": {
+        "type": "crossfade",
+        "duration": 0.25
+      },
+      "choices": {
+        "mode": "timed",
+        "show_after_sec": 0.8,
+        "items": [
+          {
+            "id": "to_A",
+            "text": "Aループへ",
+            "next": "seg_loop_A"
+          },
+          {
+            "id": "to_ACBABC",
+            "text": "ACBABCループへ",
+            "next": "seg_loop_ACBABC"
+          }
+        ]
+      }
+    },
+    "seg_loop_ACBABC": {
+      "pattern": [
+        "A",
+        "C",
+        "B",
+        "A",
+        "B",
+        "C"
+      ],
+      "loop": true,
+      "clip_transition": {
+        "type": "none",
+        "duration": 0.0
+      },
+      "switch_timing": "immediate",
+      "segment_transition": {
+        "type": "fade",
+        "duration": 0.2
+      },
+      "choices": {
+        "mode": "always",
+        "items": [
+          {
+            "id": "to_A",
+            "text": "Aループへ",
+            "next": "seg_loop_A"
+          },
+          {
+            "id": "to_AB",
+            "text": "ABループへ",
+            "next": "seg_loop_AB"
+          }
+        ]
+      }
+    }
+  }
+}

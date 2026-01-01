@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "segments.json schema",
+  "type": "object",
+  "required": [
+    "version",
+    "clips",
+    "segments"
+  ],
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "start_segment": {
+      "type": "string"
+    },
+    "video": {
+      "type": "object",
+      "properties": {
+        "base_url": {
+          "type": "string"
+        },
+        "default_ext": {
+          "type": "string"
+        },
+        "fallback_ext": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "clips": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "path"
+        ],
+        "properties": {
+          "path": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "segments": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "pattern",
+          "choices"
+        ],
+        "properties": {
+          "pattern": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "loop": {
+            "type": "boolean"
+          },
+          "switch_timing": {
+            "type": "string",
+            "enum": [
+              "immediate",
+              "boundary"
+            ]
+          },
+          "clip_transition": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "none",
+                  "dissolve"
+                ]
+              },
+              "duration": {
+                "type": "number",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "type",
+              "duration"
+            ]
+          },
+          "segment_transition": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "none",
+                  "fade",
+                  "crossfade"
+                ]
+              },
+              "duration": {
+                "type": "number",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "type",
+              "duration"
+            ]
+          },
+          "choices": {
+            "type": "object",
+            "required": [
+              "items"
+            ],
+            "properties": {
+              "mode": {
+                "type": "string",
+                "enum": [
+                  "always",
+                  "timed"
+                ]
+              },
+              "show_after_sec": {
+                "type": "number",
+                "minimum": 0
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "text",
+                    "next"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "text": {
+                      "type": "string"
+                    },
+                    "next": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}
