@@ -3,18 +3,18 @@
   "start_segment": "seg_loop_A",
   "video": {
     "base_url": "game/",
-    "default_ext": "mp4",
-    "fallback_ext": "webm"
+    "default_ext": "webm",
+    "fallback_ext": "mp4"
   },
   "clips": {
     "A": {
-      "path": "movies/A.mp4"
+      "path": "movies/A"
     },
     "B": {
-      "path": "movies/B.mp4"
+      "path": "movies/B"
     },
     "C": {
-      "path": "movies/C.mp4"
+      "path": "movies/C"
     }
   },
   "segments": {

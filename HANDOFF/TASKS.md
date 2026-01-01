@@ -115,3 +115,48 @@
 ### テスト手順
 1. `movie_overlay.rpy` の `autosel` パラメータに `{"enabled": True, "delay": 1.5, "pick_id": "to_AB"}` を渡す
 2. 1.5秒後に自動的に `to_AB` が選択されることを確認
+
+---
+
+## T6: Fix clip_load_failed false negatives on valid video paths
+
+### 目的
+動画が存在するにも関わらず `clip_load_failed` が発生するケースを解消する。
+
+### DoD (Definition of Done)
+- [ ] `web_patch/video_layer.js` のロード判定が `loadedmetadata`/`canplay` を利用する
+- [ ] タイムアウト値を拡張し、ネットワーク遅延でも誤判定しない
+- [ ] 両方の拡張子が失敗した場合のみ `clip_load_failed` を送出する
+- [ ] `docs/IMPLEMENTATION_v0.1.2.md` にロード判定の仕様を追記する
+
+### 関連ファイル
+- `web_patch/video_layer.js` - `setSourceWithFallback()` 関数
+- `docs/IMPLEMENTATION_v0.1.2.md` - 動画ロード判定の説明
+
+### テスト手順
+1. Webビルドをパッチ適用後にホストする
+2. `game/movies/A.mp4` を配置した状態で起動する
+3. `clip_load_failed` が発生せず動画が再生されることを確認
+
+---
+
+## T7: Provide WebM-first sample assets and config
+
+### 目的
+WebM を基本とする仕様に沿って、サンプルデータとロード順を整合させる。
+
+### DoD (Definition of Done)
+- [ ] `segments.json` の `default_ext` を `webm` に戻し、`fallback_ext` を `mp4` にする
+- [ ] クリップの `path` は拡張子なしで指定し、WebM→MP4 の順で試行できる
+- [ ] ドキュメントにサンプルが WebM/MP4 両方を想定する旨を追記する
+
+### 関連ファイル
+- `game/data/segments.json`
+- `vn_web_video/game/data/segments.json`
+- `docs/IMPLEMENTATION_v0.1.2.md`
+
+### テスト手順
+1. `game/movies/` に A.webm/B.webm/C.webm と A.mp4/B.mp4/C.mp4 を配置
+2. Webビルドをパッチ適用後にホストする
+3. WebM がロードできる環境では WebM が再生されることを確認
+4. WebM を削除して MP4 がフォールバックされることを確認

@@ -35,6 +35,11 @@ Date: 2026-01-01
   - イベントは `VideoLayer.popEvent()` でプル型（Ren’Py側がポーリング）に統一
     - 例: {"type":"segment_switched","segment":"seg_loop_AB"}
 
+## 3.1 動画ロード判定（clip_load_failed回避）
+- `setSourceWithFallback()` は `loadedmetadata`/`canplay`/`canplaythrough` を成功判定に利用する。
+- ロードタイムアウトは短すぎると誤判定になるため、余裕のある値を使う。
+- 両拡張子で失敗した場合のみ `clip_load_failed` をイベント送出する。
+
 ## 4. Vertical Slice（DoD）
 - seg_loop_A: Aループ＋常時選択肢
 - seg_loop_AB: ABループ（boundary切替）
@@ -42,9 +47,13 @@ Date: 2026-01-01
 - セグメント切替時に crossfade または fade が適用される
 - クリップ間切替に dissolve が適用される（JSON指定時）
 
+## 4.1 サンプル動画の拡張子運用
+- 仕様の既定は WebM（`defaultExt: "webm"`）で、MP4 はフォールバックとする。
+- `segments.json` の clip `path` は拡張子なしを推奨し、WebM→MP4 の順で試行できるようにする。
+- サンプル資産は WebM/MP4 の両方を用意する前提とする。
+
 ## 5. 次の実装拡張（v0.1.3候補）
 - 自動選択（goal/スコア）を movie overlay に統合
 - 動画立ち絵（別レイヤー）対応
 - 事前プリロード戦略（クリップ先読み）
 - モバイル最適化（UI safe area、タップ領域）
-
