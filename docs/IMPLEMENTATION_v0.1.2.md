@@ -47,6 +47,11 @@ Date: 2026-01-01
 - セグメント切替時に crossfade または fade が適用される
 - クリップ間切替に dissolve が適用される（JSON指定時）
 
+## 4.1 サンプル動画の拡張子運用
+- 仕様の既定は WebM（`defaultExt: "webm"`）で、MP4 はフォールバックとする。
+- `segments.json` の clip `path` は拡張子なしを推奨し、WebM→MP4 の順で試行できるようにする。
+- サンプル資産は WebM/MP4 の両方を用意する前提とする。
+
 ## 5. 次の実装拡張（v0.1.3候補）
 - 自動選択（goal/スコア）を movie overlay に統合
 - 動画立ち絵（別レイヤー）対応

@@ -137,3 +137,26 @@
 1. Webビルドをパッチ適用後にホストする
 2. `game/movies/A.mp4` を配置した状態で起動する
 3. `clip_load_failed` が発生せず動画が再生されることを確認
+
+---
+
+## T7: Provide WebM-first sample assets and config
+
+### 目的
+WebM を基本とする仕様に沿って、サンプルデータとロード順を整合させる。
+
+### DoD (Definition of Done)
+- [ ] `segments.json` の `default_ext` を `webm` に戻し、`fallback_ext` を `mp4` にする
+- [ ] クリップの `path` は拡張子なしで指定し、WebM→MP4 の順で試行できる
+- [ ] ドキュメントにサンプルが WebM/MP4 両方を想定する旨を追記する
+
+### 関連ファイル
+- `game/data/segments.json`
+- `vn_web_video/game/data/segments.json`
+- `docs/IMPLEMENTATION_v0.1.2.md`
+
+### テスト手順
+1. `game/movies/` に A.webm/B.webm/C.webm と A.mp4/B.mp4/C.mp4 を配置
+2. Webビルドをパッチ適用後にホストする
+3. WebM がロードできる環境では WebM が再生されることを確認
+4. WebM を削除して MP4 がフォールバックされることを確認
