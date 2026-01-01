@@ -130,10 +130,6 @@
         videoEl.src = url;
         // Kick loading
         try { videoEl.load(); } catch (e) { }
-        if (videoEl.readyState >= 1) {
-          finish(true);
-          return;
-        }
         // Safety timeout: if neither error nor canplaythrough fires
         setTimeout(() => {
           finish(false);
