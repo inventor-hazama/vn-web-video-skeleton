@@ -93,6 +93,8 @@
       fallbackUrl = resolveUrl(clipPath, state.cfg.fallbackExt || "webm");
     }
 
+    const loadTimeoutMs = 10000;
+
     // If clipPath already ends with .webm and defaultExt is webm, defaultUrl == clipPath; that's fine.
     // Use video.canPlayType as a hint, but still attempt actual load.
     const tried = [];
@@ -102,35 +104,40 @@
         let done = false;
 
         function cleanup() {
+          videoEl.removeEventListener("loadedmetadata", onReady);
+          videoEl.removeEventListener("canplay", onReady);
           videoEl.removeEventListener("canplaythrough", onReady);
           videoEl.removeEventListener("error", onError);
         }
-        function onReady() {
+        function finish(ok) {
           if (done) return;
           done = true;
           cleanup();
-          resolve({ ok: true, url });
+          resolve({ ok, url });
+        }
+        function onReady() {
+          finish(true);
         }
         function onError() {
-          if (done) return;
-          done = true;
-          cleanup();
-          resolve({ ok: false, url });
+          finish(false);
         }
 
+        videoEl.addEventListener("loadedmetadata", onReady, { once: true });
+        videoEl.addEventListener("canplay", onReady, { once: true });
         videoEl.addEventListener("canplaythrough", onReady, { once: true });
         videoEl.addEventListener("error", onError, { once: true });
 
         videoEl.src = url;
         // Kick loading
         try { videoEl.load(); } catch (e) { }
+        if (videoEl.readyState >= 1) {
+          finish(true);
+          return;
+        }
         // Safety timeout: if neither error nor canplaythrough fires
         setTimeout(() => {
-          if (done) return;
-          done = true;
-          cleanup();
-          resolve({ ok: false, url });
-        }, 3000);
+          finish(false);
+        }, loadTimeoutMs);
       });
     }
 

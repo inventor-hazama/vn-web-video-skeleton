@@ -115,3 +115,25 @@
 ### テスト手順
 1. `movie_overlay.rpy` の `autosel` パラメータに `{"enabled": True, "delay": 1.5, "pick_id": "to_AB"}` を渡す
 2. 1.5秒後に自動的に `to_AB` が選択されることを確認
+
+---
+
+## T6: Fix clip_load_failed false negatives on valid video paths
+
+### 目的
+動画が存在するにも関わらず `clip_load_failed` が発生するケースを解消する。
+
+### DoD (Definition of Done)
+- [ ] `web_patch/video_layer.js` のロード判定が `loadedmetadata`/`canplay` を利用する
+- [ ] タイムアウト値を拡張し、ネットワーク遅延でも誤判定しない
+- [ ] 両方の拡張子が失敗した場合のみ `clip_load_failed` を送出する
+- [ ] `docs/IMPLEMENTATION_v0.1.2.md` にロード判定の仕様を追記する
+
+### 関連ファイル
+- `web_patch/video_layer.js` - `setSourceWithFallback()` 関数
+- `docs/IMPLEMENTATION_v0.1.2.md` - 動画ロード判定の説明
+
+### テスト手順
+1. Webビルドをパッチ適用後にホストする
+2. `game/movies/A.mp4` を配置した状態で起動する
+3. `clip_load_failed` が発生せず動画が再生されることを確認
